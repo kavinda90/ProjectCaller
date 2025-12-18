@@ -2,8 +2,9 @@ import WebSocket from "ws";
 import { SYSTEM_MESSAGE, TOOLS } from "./agent-config.js";
 
 // OpenAI Realtime API Configuration
-const OPENAI_URL =
-  "wss://api.openai.com/v1/realtime?model=gpt-4o-realtime-preview";
+const OPENAI_URL = `wss://api.openai.com/v1/realtime?model=${
+  process.env.MODEL || "gpt-4o-realtime-preview"
+}`;
 
 export const handleStream = (connection: any, req: any) => {
   // Access key logic here to ensure env vars are loaded
@@ -75,7 +76,7 @@ export const handleStream = (connection: any, req: any) => {
         turn_detection: { type: "server_vad" },
         input_audio_format: "g711_ulaw",
         output_audio_format: "g711_ulaw",
-        voice: "alloy", // or 'shimmer', 'echo'
+        voice: process.env.VOICE || "alloy",
         instructions: SYSTEM_MESSAGE,
         modalities: ["text", "audio"],
         temperature: 0.8,
